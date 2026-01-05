@@ -1,26 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.2
+    // Scroll-driven dot navigation
+    const dots = document.querySelectorAll('.dot-nav .dot');
+    const sections = document.querySelectorAll('.timeline .container');
+    const dotNav = document.querySelector('.dot-nav');
+
+    // Show/hide dot nav based on scroll position
+    const header = document.querySelector('header');
+
+    const updateDotNavVisibility = () => {
+        const headerRect = header.getBoundingClientRect();
+        if (headerRect.bottom < 50) {
+            dotNav.classList.add('visible');
+        } else {
+            dotNav.classList.remove('visible');
+        }
     };
 
-    const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                // Optional: Stop observing once visible? 
-                // observer.unobserve(entry.target); 
-                // Keeping it observing allows re-triggering if we want different exit logic, 
-                // but for simple fade-in, usually we leave the class on.
+    // Update active dot based on scroll position
+    const updateActiveDot = () => {
+        const scrollTop = window.scrollY;
+        const viewportHeight = window.innerHeight;
+        const activationPoint = viewportHeight * 0.3; // Trigger at 30% from top
+
+        let activeIndex = -1;
+
+        sections.forEach((section, index) => {
+            const rect = section.getBoundingClientRect();
+            const sectionTop = rect.top;
+
+            // Section is active if its top is above the activation point
+            if (sectionTop <= activationPoint) {
+                activeIndex = index;
+            }
+
+            // Fade in sections when they enter viewport
+            if (rect.top < viewportHeight * 0.85) {
+                section.classList.add('visible');
             }
         });
-    }, observerOptions);
 
-    const timelineItems = document.querySelectorAll('.container');
-    timelineItems.forEach(item => {
-        observer.observe(item);
+        // Update dot states
+        dots.forEach((dot, index) => {
+            dot.classList.remove('active', 'passed');
+
+            if (index === activeIndex) {
+                dot.classList.add('active');
+            } else if (index < activeIndex) {
+                dot.classList.add('passed');
+            }
+        });
+    };
+
+    // Click navigation for dots
+    dots.forEach((dot) => {
+        dot.addEventListener('click', () => {
+            const sectionId = dot.dataset.section;
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
     });
+
+    // Throttled scroll handler
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                updateActiveDot();
+                updateDotNavVisibility();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+    // Initial update
+    updateActiveDot();
+    updateDotNavVisibility();
 
     // Lightbox Functionality
     const lightbox = document.getElementById('lightbox');
