@@ -128,4 +128,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+    // Read More Toggle
+    document.querySelectorAll('.read-more-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const collapsible = btn.nextElementSibling;
+            const isExpanded = collapsible.classList.toggle('expanded');
+            btn.classList.toggle('expanded', isExpanded);
+            btn.childNodes[0].textContent = isExpanded ? 'Read less' : 'Read more';
+        });
+    });
 });
