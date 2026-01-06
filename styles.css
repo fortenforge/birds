@@ -357,10 +357,26 @@ img.full-width {
         display: none;
     }
 
+    /* Reduce header size on mobile */
+    header {
+        padding: 2.5rem 1rem;
+        margin-bottom: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    /* Adjust timeline padding */
+    .timeline {
+        padding: 1rem;
+        padding-top: 40px;
+    }
+
     .container {
         width: 100%;
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
     /* Remove arrow pointers on mobile */
@@ -373,10 +389,34 @@ img.full-width {
         left: 0;
     }
 
-    /* Reduce overlap on mobile */
+    /* Remove overlap on mobile - stack cards normally */
     .container.right,
     .container.left:not(:first-child) {
-        margin-top: -100px;
+        margin-top: 0;
+    }
+
+    /* Smaller card padding on mobile */
+    .content {
+        padding: 1.25rem;
+    }
+
+    .content h2 {
+        font-size: 1.25rem;
+    }
+
+    /* Stack media items vertically on mobile */
+    .media-container {
+        flex-direction: column;
+    }
+
+    .media-item {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+
+    /* Ensure zoomed images still work properly on mobile */
+    .media-item.zoomed {
+        aspect-ratio: 4/3;
     }
 }
 
