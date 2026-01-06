@@ -215,6 +215,21 @@ h1 {
     margin-bottom: 1.5rem;
 }
 
+/* Bird Name Links */
+.bird-link {
+    color: #7cb8a0;
+    text-decoration: none;
+    border-bottom: 1px dotted #7cb8a033;
+    transition: all 0.2s ease;
+    font-weight: bolder;
+    font-variant: small-caps;
+}
+
+.bird-link:hover {
+    color: #9dd4be;
+    border-bottom-color: #9dd4be;
+}
+
 /* Blockquote Styling */
 blockquote {
     margin: 1rem 0 1.5rem 0;
@@ -389,11 +404,12 @@ img.full-width {
 
 .lightbox-content-wrapper {
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     max-width: 90%;
     max-height: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
 
 .lightbox-content {
@@ -403,6 +419,46 @@ img.full-width {
     border: none;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
     object-fit: contain;
+}
+
+/* Lightbox Caption */
+.lightbox-caption {
+    text-align: left;
+    color: var(--text-secondary);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-top: 1rem;
+    padding: 0;
+    max-width: 800px;
+    width: 100%;
+    align-self: flex-start;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+}
+
+.lightbox-modal.show .lightbox-caption {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.lightbox-caption:empty {
+    display: none;
+}
+
+.lightbox-caption .bird-link {
+    color: #7cb8a0;
+    text-decoration: none;
+    border-bottom: 1px dotted #7cb8a033;
+    transition: all 0.2s ease;
+    font-weight: bolder;
+    font-variant: small-caps;
+}
+
+.lightbox-caption .bird-link:hover {
+    color: #9dd4be;
+    border-bottom-color: #9dd4be;
 }
 
 /* Lightbox Buttons - Base */

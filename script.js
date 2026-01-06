@@ -83,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxVideo = document.getElementById('lightbox-video');
+    const lightboxCaption = document.getElementById('lightbox-caption');
     const closeBtn = document.querySelector('.close-btn');
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
@@ -105,6 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
             lightboxImg.style.display = 'block';
             lightboxImg.src = media.src;
         }
+
+        // Display caption from data-caption attribute, falling back to alt text for images
+        const caption = media.dataset.caption || (isVideo ? '' : (media.alt || ''));
+        lightboxCaption.innerHTML = caption;
 
         // Update button visibility
         prevBtn.style.display = index > 0 ? 'block' : 'none';
