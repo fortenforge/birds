@@ -408,6 +408,7 @@ blockquote li {
     display: block;
     cursor: pointer;
     transition: transform 0.3s ease;
+    border-radius: 10px;
 }
 
 .media-item:hover img,
@@ -418,12 +419,56 @@ blockquote li {
 /* Zoomed media items with focal point */
 .media-item.zoomed {
     aspect-ratio: 4/3;
+    overflow: hidden;
 }
 
 .media-item.zoomed img {
     object-fit: cover;
     transform: scale(var(--zoom, 1.5));
     transform-origin: var(--focus, center);
+    transition: transform 0.3s ease;
+}
+
+.media-item.zoomed:hover img {
+    transform: scale(calc(var(--zoom, 1.5) * 1.05));
+}
+
+/* Hover Caption Tooltip */
+.media-caption-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.75rem 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 70%, transparent 100%);
+    color: var(--text-primary);
+    font-family: 'Libre Baskerville', Georgia, serif;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+    border-radius: 0 0 10px 10px;
+}
+
+.media-item:hover .media-caption-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.media-caption-overlay .bird-link {
+    color: var(--bird-link-color);
+    text-decoration: none;
+    font-weight: 700;
+    font-variant: small-caps;
+    pointer-events: auto;
+}
+
+.media-caption-overlay .bird-link:hover {
+    color: var(--bird-link-hover);
 }
 
 img.full-width {

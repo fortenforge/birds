@@ -327,6 +327,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Create hover caption overlays for media items
+    document.querySelectorAll('.media-item').forEach(mediaItem => {
+        const media = mediaItem.querySelector('img, video');
+        if (media && media.dataset.caption) {
+            const overlay = document.createElement('div');
+            overlay.className = 'media-caption-overlay';
+            overlay.innerHTML = media.dataset.caption;
+            mediaItem.appendChild(overlay);
+        }
+    });
+
     // Read More Toggle
     document.querySelectorAll('.read-more-btn').forEach(btn => {
         btn.addEventListener('click', () => {
