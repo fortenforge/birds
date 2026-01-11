@@ -1,15 +1,19 @@
-/* Google Fonts Import */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+/* Google Fonts Import - Bold Typography System */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 :root {
-    --bg-color: #1a1612;
-    --card-bg: rgba(42, 36, 30, 0.85);
-    --card-border: rgba(200, 170, 130, 0.2);
-    --accent-color: #d4a574;
-    --accent-light: #e8c9a8;
-    --text-primary: #f5f0e8;
-    --text-secondary: #b8a898;
-    --timeline-line: rgba(212, 165, 116, 0.4);
+    --bg-color: #0d1a14;
+    --card-bg: rgba(24, 40, 32, 0.92);
+    --card-border: rgba(140, 160, 120, 0.2);
+    --accent-color: #8fae7b;
+    --accent-light: #b8d4a0;
+    --accent-glow: rgba(143, 174, 123, 0.35);
+    --text-primary: #f4f2ec;
+    --text-secondary: #b8c4a8;
+    --text-muted: #6a7860;
+    --timeline-line: rgba(143, 174, 123, 0.4);
+    --bird-link-color: #d4a574;
+    --bird-link-hover: #e8c094;
 }
 
 * {
@@ -21,28 +25,49 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-primary);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.6;
+    font-family: 'Libre Baskerville', Georgia, serif;
+    line-height: 1.85;
     overflow-x: hidden;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 header {
     text-align: center;
-    padding: 4rem 1rem;
-    margin-bottom: 2rem;
-    background: radial-gradient(ellipse at top, rgba(212, 165, 116, 0.08) 0%, transparent 60%);
+    padding: 6rem 1.5rem 4rem;
+    margin-bottom: 3rem;
+    background: radial-gradient(ellipse at top, rgba(201, 149, 108, 0.06) 0%, transparent 70%);
+    position: relative;
+}
+
+header::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+    margin: 1.5rem auto 0;
+    opacity: 0.6;
 }
 
 h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    color: var(--accent-light);
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    color: var(--text-primary);
+    text-shadow: 0 2px 40px rgba(201, 149, 108, 0.15);
 }
 
 .subtitle {
-    color: var(--text-secondary);
-    font-size: 1.1rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 1rem;
 }
 
 /* Timeline Container */
@@ -135,7 +160,7 @@ h1 {
 /* Pull alternating entries up for overlap */
 .container.right,
 .container.left:not(:first-child) {
-    margin-top: -200px;
+    margin-top: -100px;
 }
 
 .container:first-child {
@@ -154,100 +179,151 @@ h1 {
     content: " ";
     height: 0;
     position: absolute;
-    top: 20px;
+    top: 28px;
     width: 0;
     z-index: 1;
-    right: 30px;
-    border: medium solid white;
-    border-width: 10px 0 10px 10px;
-    border-color: transparent transparent transparent var(--card-border);
+    right: 28px;
+    border: medium solid transparent;
+    border-width: 12px 0 12px 12px;
+    border-left-color: rgba(200, 170, 130, 0.3);
 }
 
 .right::before {
     content: " ";
     height: 0;
     position: absolute;
-    top: 20px;
+    top: 28px;
     width: 0;
     z-index: 1;
-    left: 30px;
-    border: medium solid white;
-    border-width: 10px 10px 10px 0;
-    border-color: transparent var(--card-border) transparent transparent;
+    left: 28px;
+    border: medium solid transparent;
+    border-width: 12px 12px 12px 0;
+    border-right-color: rgba(200, 170, 130, 0.3);
 }
 
 /* Content Card */
 .content {
-    padding: 2rem;
+    padding: 2.25rem;
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .content:hover {
-    transform: translateY(-5px);
+    transform: translateY(-6px);
     border-color: var(--accent-color);
+    box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.35),
+        0 0 30px var(--accent-glow),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
 }
 
+/* Date Badge - Journal Style */
 .date {
     display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: rgba(212, 165, 116, 0.15);
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0;
+    padding-left: 0.75rem;
+    background: transparent;
     color: var(--accent-color);
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
+    border-radius: 0;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
     margin-bottom: 1rem;
-    border: 1px solid rgba(212, 165, 116, 0.25);
+    border: none;
+    border-left: 3px solid var(--accent-color);
 }
 
+/* Section Headings - Expressive Serif */
 .content h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-}
-
-.content p {
-    color: var(--text-secondary);
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-size: 1.85rem;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
     margin-bottom: 1.5rem;
+    color: var(--text-primary);
 }
 
-/* Bird Name Links */
+/* Body Text - Elegant Readability */
+.content p {
+    font-family: 'Libre Baskerville', Georgia, serif;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.85;
+    margin-bottom: 1.25rem;
+}
+
+.content p em {
+    font-style: italic;
+    color: var(--accent-light);
+}
+
+/* Bird Name Links - Distinctive Styling */
 .bird-link {
-    color: #7cb8a0;
+    color: var(--bird-link-color);
     text-decoration: none;
-    border-bottom: 1px dotted #7cb8a033;
-    transition: all 0.2s ease;
-    font-weight: bolder;
+    font-weight: 700;
     font-variant: small-caps;
+    letter-spacing: 0.02em;
+    position: relative;
+    transition: color 0.2s ease;
+}
+
+.bird-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--bird-link-color) 0%, transparent 100%);
+    transform: scaleX(0.3);
+    transform-origin: left;
+    transition: transform 0.3s ease;
 }
 
 .bird-link:hover {
-    color: #9dd4be;
-    border-bottom-color: #9dd4be;
+    color: var(--bird-link-hover);
+}
+
+.bird-link:hover::after {
+    transform: scaleX(1);
+    background: linear-gradient(90deg, var(--bird-link-hover) 0%, transparent 100%);
 }
 
 /* Blockquote Styling */
 blockquote {
-    margin: 1rem 0 1.5rem 0;
-    padding: 1rem 1.5rem;
-    background: rgba(212, 165, 116, 0.08);
+    margin: 1.5rem 0 1.75rem 0;
+    padding: 1.25rem 1.75rem;
+    background: rgba(201, 149, 108, 0.06);
     border-left: 3px solid var(--accent-color);
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 12px 12px 0;
+    font-family: 'Libre Baskerville', Georgia, serif;
     font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.8;
     color: var(--text-secondary);
 }
 
 blockquote ul {
     margin: 1rem 0 0.5rem 1.5rem;
+    font-family: 'JetBrains Mono', monospace;
     font-style: normal;
+    font-size: 0.8rem;
+    line-height: 1.6;
 }
 
 blockquote li {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
 }
 
 /* Read More Collapsible */
@@ -275,22 +351,26 @@ blockquote li {
 .read-more-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    background: rgba(212, 165, 116, 0.1);
-    border: 1px solid rgba(212, 165, 116, 0.3);
-    border-radius: 20px;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(201, 149, 108, 0.3);
+    border-radius: 0;
     color: var(--accent-color);
-    font-size: 0.85rem;
-    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     cursor: pointer;
-    padding: 0.4rem 0.9rem;
-    margin: 0.5rem 0;
-    transition: all 0.2s ease;
+    padding: 0.5rem 0;
+    margin: 0.25rem 0 0.75rem;
+    transition: all 0.25s ease;
 }
 
 .read-more-btn::after {
-    content: '▼';
-    font-size: 0.65rem;
+    content: '↓';
+    font-size: 0.85rem;
     transition: transform 0.3s ease;
 }
 
@@ -299,24 +379,25 @@ blockquote li {
 }
 
 .read-more-btn:hover {
-    background: rgba(212, 165, 116, 0.2);
-    border-color: var(--accent-color);
+    color: var(--accent-light);
+    border-bottom-color: var(--accent-color);
 }
 
 /* Media Handling */
 .media-container {
     display: flex;
-    gap: 10px;
-    margin-top: 1rem;
+    gap: 8px;
+    margin-top: 1.5rem;
     flex-wrap: wrap;
 }
 
 .media-item {
-    flex: 1 1 calc(50% - 10px);
-    border-radius: 8px;
+    flex: 1 1 calc(50% - 4px);
+    min-width: calc(50% - 4px);
+    border-radius: 10px;
     overflow: hidden;
     position: relative;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .media-item video,
@@ -359,12 +440,13 @@ img.full-width {
 
     /* Reduce header size on mobile */
     header {
-        padding: 2.5rem 1rem;
+        padding: 3.5rem 1rem 3rem;
         margin-bottom: 1rem;
     }
 
-    h1 {
-        font-size: 2rem;
+    header::after {
+        font-size: 1.5rem;
+        margin-top: 1rem;
     }
 
     /* Adjust timeline padding */
@@ -375,8 +457,8 @@ img.full-width {
 
     .container {
         width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
+        padding-left: 12px;
+        padding-right: 12px;
     }
 
     /* Remove arrow pointers on mobile */
@@ -397,11 +479,23 @@ img.full-width {
 
     /* Smaller card padding on mobile */
     .content {
-        padding: 1.25rem;
+        padding: 1.5rem;
     }
 
     .content h2 {
-        font-size: 1.25rem;
+        font-size: 1.5rem;
+        line-height: 1.25;
+    }
+
+    .content p {
+        font-size: 0.9rem;
+        line-height: 1.75;
+    }
+
+    .date {
+        font-size: 0.7rem;
+        padding: 0.35rem 0.6rem;
+        padding-left: 0.6rem;
     }
 
     /* Stack media items vertically on mobile */
@@ -465,10 +559,10 @@ img.full-width {
 .lightbox-caption {
     text-align: left;
     color: var(--text-secondary);
-    font-family: 'Inter', sans-serif;
+    font-family: 'Libre Baskerville', Georgia, serif;
     font-size: 0.95rem;
-    line-height: 1.6;
-    margin-top: 1rem;
+    line-height: 1.7;
+    margin-top: 1.25rem;
     padding: 0;
     max-width: 800px;
     width: 100%;
@@ -488,17 +582,17 @@ img.full-width {
 }
 
 .lightbox-caption .bird-link {
-    color: #7cb8a0;
+    color: var(--bird-link-color);
     text-decoration: none;
-    border-bottom: 1px dotted #7cb8a033;
-    transition: all 0.2s ease;
-    font-weight: bolder;
+    font-weight: 700;
     font-variant: small-caps;
+    letter-spacing: 0.02em;
+    position: relative;
+    transition: color 0.2s ease;
 }
 
 .lightbox-caption .bird-link:hover {
-    color: #9dd4be;
-    border-bottom-color: #9dd4be;
+    color: var(--bird-link-hover);
 }
 
 /* Lightbox Buttons - Base */
