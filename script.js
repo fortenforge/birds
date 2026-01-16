@@ -327,7 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Create hover caption overlays for media items
+    // Create caption overlays for media items (positioned below media on hover)
     document.querySelectorAll('.media-item').forEach(mediaItem => {
         const media = mediaItem.querySelector('img, video');
         if (media && media.dataset.caption) {

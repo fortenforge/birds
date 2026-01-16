@@ -395,11 +395,12 @@ blockquote li {
     flex: 1 1 calc(50% - 4px);
     min-width: calc(50% - 4px);
     border-radius: 10px;
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
+/* Inner wrapper to clip the hover scale effect */
 .media-item video,
 .media-item img {
     width: 100%;
@@ -409,6 +410,7 @@ blockquote li {
     cursor: pointer;
     transition: transform 0.3s ease;
     border-radius: 10px;
+    clip-path: inset(0 round 10px);
 }
 
 .media-item:hover img,
@@ -433,30 +435,31 @@ blockquote li {
     transform: scale(calc(var(--zoom, 1.5) * 1.05));
 }
 
-/* Hover Caption Tooltip */
+/* Floating Caption Below Media - appears on hover, floats over content */
 .media-caption-overlay {
     position: absolute;
-    bottom: 0;
+    top: 100%;
     left: 0;
     right: 0;
-    padding: 0.75rem 1rem;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 70%, transparent 100%);
+    padding: 0.5rem 0.75rem;
+    background: rgba(0, 0, 0, 0.9);
     color: var(--text-primary);
     font-family: 'Libre Baskerville', Georgia, serif;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.5;
-    text-align: center;
+    text-align: left;
+    border-radius: 0 0 8px 8px;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 20;
     pointer-events: none;
-    z-index: 10;
-    border-radius: 0 0 10px 10px;
 }
 
 .media-item:hover .media-caption-overlay {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
 }
 
 .media-caption-overlay .bird-link {
@@ -464,7 +467,6 @@ blockquote li {
     text-decoration: none;
     font-weight: 700;
     font-variant: small-caps;
-    pointer-events: auto;
 }
 
 .media-caption-overlay .bird-link:hover {
