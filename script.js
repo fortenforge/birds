@@ -1,4 +1,132 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // === LOADING SCREEN LOGIC ===
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const progressBar = document.getElementById('progress-bar');
+    const loadingStatus = document.getElementById('loading-status');
+
+    // Get first 10 media items (images and videos from first few cards)
+    const allMediaItems = Array.from(document.querySelectorAll('.media-item img, .media-item video')).slice(0, 10);
+    const totalMedia = allMediaItems.length;
+    let loadedCount = 0;
+    let loadingComplete = false;
+
+    const updateProgress = () => {
+        const percent = Math.round((loadedCount / totalMedia) * 100);
+        progressBar.style.width = `${percent}%`;
+        loadingStatus.textContent = `Loading media: ${loadedCount}/${totalMedia}`;
+    };
+
+    const dismissLoader = () => {
+        if (loadingComplete) return;
+        loadingComplete = true;
+        progressBar.style.width = '100%';
+        loadingStatus.textContent = 'Ready!';
+        setTimeout(() => {
+            loadingOverlay.classList.add('hidden');
+        }, 300);
+    };
+
+    const onMediaLoad = () => {
+        loadedCount++;
+        updateProgress();
+        if (loadedCount >= totalMedia) {
+            dismissLoader();
+        }
+    };
+
+    // Track loading of each media item
+    allMediaItems.forEach(media => {
+        if (media.tagName === 'IMG') {
+            if (media.complete) {
+                onMediaLoad();
+            } else {
+                media.addEventListener('load', onMediaLoad);
+                media.addEventListener('error', onMediaLoad); // Count errors as "loaded" to not block
+            }
+        } else if (media.tagName === 'VIDEO') {
+            // For videos, consider them loaded when they have enough data to play
+            if (media.readyState >= 3) {
+                onMediaLoad();
+            } else {
+                media.addEventListener('canplay', onMediaLoad);
+                media.addEventListener('error', onMediaLoad);
+            }
+        }
+    });
+
+    // Failsafe: dismiss loader after 5 seconds max
+    setTimeout(() => {
+        if (!loadingComplete) {
+            dismissLoader();
+        }
+    }, 5000);
+
+    // If there's no media to load, dismiss immediately
+    if (totalMedia === 0) {
+        dismissLoader();
+    }
+
+    // === LQIP BLUR-UP SETUP ===
+    // Set up blur-up effect for images with thumbnails
+    document.querySelectorAll('.media-item img').forEach(img => {
+        const src = img.src;
+        // Generate thumbnail path: /media/date/image.jpg -> /media/date/thumbnails/image.jpg
+        const pathParts = src.split('/');
+        const filename = pathParts.pop();
+        const baseName = filename.split('.')[0];
+        const thumbPath = pathParts.join('/') + '/thumbnails/' + baseName + '.jpg';
+
+        const mediaItem = img.closest('.media-item');
+        if (mediaItem) {
+            // Set up LQIP
+            mediaItem.classList.add('lqip');
+            mediaItem.style.backgroundImage = `url('${thumbPath}')`;
+
+            // When image loads, reveal it
+            if (img.complete) {
+                mediaItem.classList.add('loaded');
+            } else {
+                img.addEventListener('load', () => {
+                    mediaItem.classList.add('loaded');
+                });
+                img.addEventListener('error', () => {
+                    mediaItem.classList.add('loaded'); // Show anyway on error
+                });
+            }
+        }
+    });
+
+    // === VIDEO POSTER SETUP ===
+    // Set poster attribute for videos
+    document.querySelectorAll('.media-item video').forEach(video => {
+        const source = video.querySelector('source');
+        if (source) {
+            const videoSrc = source.src;
+            // Generate poster path: /media/date/video.mp4 -> /media/date/video-poster.jpg
+            const posterPath = videoSrc.replace(/\.(mp4|mov)$/i, '-poster.jpg');
+            video.poster = posterPath;
+
+            // Set up LQIP for video as well
+            const mediaItem = video.closest('.media-item');
+            if (mediaItem) {
+                mediaItem.classList.add('lqip');
+                mediaItem.style.backgroundImage = `url('${posterPath}')`;
+
+                // Mark as loaded when video can play
+                if (video.readyState >= 3) {
+                    mediaItem.classList.add('loaded');
+                } else {
+                    video.addEventListener('canplay', () => {
+                        mediaItem.classList.add('loaded');
+                    });
+                    video.addEventListener('error', () => {
+                        mediaItem.classList.add('loaded');
+                    });
+                }
+            }
+        }
+    });
+
     // Scroll-driven dot navigation
     const dots = document.querySelectorAll('.dot-nav .dot');
     const sections = document.querySelectorAll('.timeline .container');
@@ -334,7 +462,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const overlay = document.createElement('div');
             overlay.className = 'media-caption-overlay';
             overlay.innerHTML = media.dataset.caption;
-            mediaItem.appendChild(overlay);
+
+            // For zoomed items, append to media-container to avoid overflow:hidden clipping
+            if (mediaItem.classList.contains('zoomed')) {
+                const mediaContainer = mediaItem.closest('.media-container');
+                if (mediaContainer) {
+                    mediaContainer.appendChild(overlay);
+                    overlay.style.display = 'none';
+
+                    mediaItem.addEventListener('mouseenter', () => {
+                        const rect = mediaItem.getBoundingClientRect();
+                        const containerRect = mediaContainer.getBoundingClientRect();
+                        overlay.style.display = 'block';
+                        overlay.style.position = 'absolute';
+                        overlay.style.left = (rect.left - containerRect.left) + 'px';
+                        overlay.style.top = (rect.bottom - containerRect.top) + 'px';
+                        overlay.style.width = rect.width + 'px';
+                        overlay.style.opacity = '1';
+                        overlay.style.visibility = 'visible';
+                    });
+
+                    mediaItem.addEventListener('mouseleave', () => {
+                        overlay.style.opacity = '0';
+                        overlay.style.visibility = 'hidden';
+                    });
+                }
+            } else {
+                mediaItem.appendChild(overlay);
+            }
         }
     });
 

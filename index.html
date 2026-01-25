@@ -9,6 +9,17 @@
 </head>
 
 <body>
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <h2 class="loading-title">Loading...</h2>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            <p class="loading-status" id="loading-status">Preparing media...</p>
+        </div>
+    </div>
+
     <header>
         <h1>Birding encounters 2025</h1>
     </header>
@@ -92,7 +103,7 @@
                             data-caption="<a href='https://ebird.org/species/cancre' class='bird-link' target='_blank'>sandhill cranes</a> flying over.">
                     </div>
                     <div class="media-item zoomed" style="--focus: 70% 50%; --zoom: 2">
-                        <img src="media/1-4-2025/coyote.jpg" alt="Coyote" loading="lazy">
+                        <img src="media/1-4-2025/coyote.jpg" alt="Coyote" data-caption="Coyote" loading="lazy">
                     </div>
                 </div>
             </div>
